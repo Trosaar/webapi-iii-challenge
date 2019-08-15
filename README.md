@@ -37,9 +37,9 @@ Follow these steps for completing your project.
   - this middleware runs on every request made to the API
 
 - `validateUserId()`
-  - `validateUserId` validates the user id on every request that expects a user id parameter
-  - if the `id` parameter is valid, store that user object as `req.user`
-  - if the `id` parameter does not match any user id in the database, cancel the request and respond with status `400` and `{ message: "invalid user id" }`
+    - `validateUserId` validates the user id on every request that expects a user id parameter
+    - if the `id` parameter is valid, store that user object as `req.user`
+    - if the `id` parameter does not match any user id in the database, cancel the request and respond with status `400` and `{ message: "invalid user id" }`
 
 - `validateUser()`
   - `validateUser` validates the `body` on a request to create a new user
