@@ -4,38 +4,35 @@ const router = express.Router();
 
 const db = require('./userDb.js');
 
-
-router.post('/', validatePost, (req, res) => {
+// When the client makes a `POST` request to `/api/users`:
+router.post('/', validateUser, async (req, res) => {
   //datatype
   //status code
   //responce
 
-  const { name, bio } = req.body;
+  const { name } = req.body;
 
-  db.insert({name, bio})
-  .then((id) => {
-    if(id){
-      console.log(created);
-      res.status(201).json({id})
-    } else {
-      res.status(400).json({
-        errorMessage: 'Please provide name and bio for the user.'
-      })
-    }
-  })
-  .catch(err => {
-    res.status(500).json({
-      error: 'There was an error while saving the user to the database',
-    })
-  })
+  try{
+    const user = await db.insert(name)
+    res.status(201).json({user})
+  } catch(err) {
+    res.status(500).json({ message: 'There was an error while saving the user to the database' })
+  }
 });
 
-router.post('/:id/posts', validatePost, validateUserId, (req, res) => {
+// When the client makes a `POST` request to `/api/users/:id/posts`:
+router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
 
 });
 
-router.get('/', (req, res) => {
-
+// When the client makes a `GET` request to `/api/users`:
+router.get('/', async (req, res) => {
+  try {
+    const users = await db.get();
+    res.status(200).json(users);
+  } catch(err) {
+    res.status(500).json({ error: 'Cannot retrieve'})
+  }
 });
 
 router.get('/:id', validateUserId, (req, res) => {
